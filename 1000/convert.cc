@@ -158,9 +158,10 @@ void parse(ifstream& in)
             pair<int, int> location(x_coordinate, y_coordinate);
             if(location__to__locationid.find(location) == location__to__locationid.end()){
                 location__to__locationid[location] = location_counter++;
+                locationid__to__location[location__to__locationid[location]] = location;
             }
             int locationid = location__to__locationid[location];
-
+            
             customer__to__locationid[customerid] = locationid;
             
             customer__to__demand[customerid] = demand;
@@ -215,11 +216,30 @@ void write__vrx(){
     cout<<"*END*"<<endl;
     cout<<endl;
     
+    cout<<"VEHICLES"<<endl;
+    for(auto veh = vehicleid_to__capacity.begin()
+            ; veh != vehicleid_to__capacity.end()
+            ; veh++){
+        cout<<"\t"<<veh->first<<" "<<veh->second<<endl;
+    }
+    cout<<"*END*"<<endl;
+    cout<<endl;
+    
+    cout<<"VEHICLE_AVAIL"<<endl;
+    for(auto veh = vehicleid_to__capacity.begin()
+            ; veh != vehicleid_to__capacity.end()
+            ; veh++){
+        cout<<"\t"<<veh->first<<" "<<0<<" "<<0<<" "<<" "<<0<<" "<<vehicleid_to__duration[veh->first]<<endl;
+    }
+    cout<<"*END*"<<endl;
+    cout<<endl;
+    
 
     cout<<"REQUESTS"<<endl;
     for(auto cust = customer__to__demand.begin()
             ; cust != customer__to__demand.end()
             ; cust++){
+        if(cust->first == 0)continue;
         cout<<"\t"<<cust->first
             <<" "<<customer__to__locationid[cust->first]
             <<" "<<customer__to__value[cust->first]
@@ -229,10 +249,11 @@ void write__vrx(){
     cout<<"*END*"<<endl;
     cout<<endl;
 
-    cout<<"REQUESTS_TIMES"<<endl;
+    cout<<"REQUEST_TIMES"<<endl;
     for(auto cust = customer__to__demand.begin()
              ; cust != customer__to__demand.end()
              ; cust++){
+        if(cust->first == 0)continue;
         cout<<"\t"<<cust->first
             <<" "<<customer__to__start_time_window[cust->first]
             <<" "<<customer__to__end_time_window[cust->first]
