@@ -1,0 +1,6 @@
+wgtfn		regret3
+lnswgtfn	rand,minins,regret,regret3,regret4
+seedtype 	none
+lnsfn		lnscfg
+improve		lnssa-50-1000
+rerun		1
