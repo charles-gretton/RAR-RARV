@@ -14,6 +14,8 @@
 
 using namespace std;
 
+double coordinate_multiplication_factor = 1.0;
+
 string problem_name = "";
 int global__customer_value; 
 string global__input_filename; 
@@ -21,8 +23,8 @@ map<string, int> vehicleid_to__capacity;
 map<string, int> vehicleid_to__duration;
 
 int location_counter = 0;
-map<int, pair<int, int> > locationid__to__location;
-map<pair<int, int>,  int> location__to__locationid;
+map<int, pair<double, double> > locationid__to__location;
+map<pair<double, double>,  int> location__to__locationid;
 
 map<int, int> customer__to__locationid;
 
@@ -136,12 +138,18 @@ void parse(ifstream& in)
             iss>>str;
             assert(str == "TIME");
             if(str != "TIME"){cerr<<"Input is badly formatted!\n";exit(-1);}
+
+            
+            getline(in, tmp);
+            if(tmp.size() != 1){cerr<<"Bad input file : "<<tmp.size()<<endl; exit(-1);}
+            assert(tmp.size() == 1);
         } else { // Parsing row of customer table.
             
+
             istringstream iss(tmp);
             int customerid;
-            int x_coordinate;
-            int y_coordinate;
+            double x_coordinate;
+            double y_coordinate;
             int demand;
             int start__time_window;
             int end__time_window;
@@ -155,13 +163,18 @@ void parse(ifstream& in)
             iss>>end__time_window;
             iss>>duration;
 
-            pair<int, int> location(x_coordinate, y_coordinate);
+            x_coordinate *= coordinate_multiplication_factor;
+            y_coordinate *= coordinate_multiplication_factor;
+
+            pair<double, double> location(x_coordinate, y_coordinate);
             if(location__to__locationid.find(location) == location__to__locationid.end()){
                 location__to__locationid[location] = location_counter++;
                 locationid__to__location[location__to__locationid[location]] = location;
             }
             int locationid = location__to__locationid[location];
             
+            //cerr<<locationid<<" -to-> "<<location.first<<" x "<<location.second<<endl;
+
             customer__to__locationid[customerid] = locationid;
             
             customer__to__demand[customerid] = demand;
@@ -274,9 +287,15 @@ void write__vrx(){
 }
 
 int main(int argc, char** argv){
+
+    if(argc == 4 ){
+        istringstream iss(argv[3]);
+        iss>>coordinate_multiplication_factor;
+    }
     
-    if(argc != 3 ) {cerr<<"Bad number of arguments("<<argc<<").\n";exit(-1);}
-    assert(argc==3);
+    if( ! ( argc <= 4 && argc >= 3) ) {cerr<<"Bad number of arguments("<<argc<<").\n";exit(-1);}
+    assert(argc<=4);
+    assert(argc>=3);
 
     global__customer_value = atoi(argv[2]); 
     global__input_filename = string(argv[1]);
