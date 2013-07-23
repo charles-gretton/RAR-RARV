@@ -4,7 +4,8 @@ COMMENT Converted from Solomon datafile C2_10_2.TXT
 
 COMMODITIES Load
 METRICS
-	 Time EUC OBJ MULT 100
+  Dist EUC OBJ MULT 1
+  Time EUC MULT 100
 *END*
 TIME_METRIC Time
 

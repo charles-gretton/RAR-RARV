@@ -211,11 +211,19 @@ void write__vrx(){
     cout<<endl;
     
     cout<<"COMMODITIES Load"<<endl;
+
     cout<<"METRICS"<<endl;
-    cout<<"\t Time EUC OBJ MULT 100"<<endl;
+    cout<<"  Dist EUC OBJ MULT 1"<<endl;
+    cout<<"  Time EUC MULT 100"<<endl;
     cout<<"*END*"<<endl;
     cout<<"TIME_METRIC Time"<<endl;
     cout<<endl;
+
+    // cout<<"METRICS"<<endl;
+    // cout<<"\t Time EUC OBJ MULT 100"<<endl;
+    // cout<<"*END*"<<endl;
+    // cout<<"TIME_METRIC Time"<<endl;
+    // cout<<endl;
 
     cout<<"LOCATIONS"<<endl;
     for(auto location_info = locationid__to__location.begin()

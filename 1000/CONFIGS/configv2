@@ -1,0 +1,6 @@
+wgtfn		./CONFIGS/regret3v
+lnswgtfn	./CONFIGS/randv,./CONFIGS/mininsv,./CONFIGS/regretv,./CONFIGS/regret3v,./CONFIGS/regret4v
+seedtype 	none
+lnsfn		./CONFIGS/lnscfg2
+improve		lnssa-30-5000
+rerun		1
